@@ -5,13 +5,13 @@ Natively, Coral's dashboard let you setup a webhook to any existing Slack instan
 
 ## Coral and Mattermost 
 
-![Mattermost](https://about.mattermost.com/wp-content/uploads/2017/08/Mattermost-Logo-Blue.svg =250x)
+<img src="https://about.mattermost.com/wp-content/uploads/2017/08/Mattermost-Logo-Blue.svg" alt="Mattermost" width="250" />
 
 Mattermost is an open source Slack self hosted alternative :
 
 > All team communication in one place, searchable and accessible anywhere. Mattermost is an open source, private cloud, Slack-alternative from https://mattermost.com. It's written in Golang and React and runs as a single Linux binary with MySQL or PostgreSQL. 
 
-<img src="https://cdn.vox-cdn.com/thumbor/104MCEWzKTgejtBSadMsOq1ZSnE=/0x0:1013x389/1200x0/filters:focal(0x0:1013x389):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/19184651/Logo_horizontal_color__1_.png" alt="Coral by Vox media" style="zoom: 50%;" />
+<img src="https://cdn.vox-cdn.com/thumbor/104MCEWzKTgejtBSadMsOq1ZSnE=/0x0:1013x389/1200x0/filters:focal(0x0:1013x389):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/19184651/Logo_horizontal_color__1_.png" alt="Coral" width="250">
 
 Here is a little description of what Coral is about : 
 
