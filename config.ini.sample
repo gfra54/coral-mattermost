@@ -1,0 +1,15 @@
+[Mattermost]
+; the custom webhook url you defined in Mattermost
+webhook = "https://[mattermost url]/hooks/[key]"
+
+; The username displayed for each message poster via the webhook
+username = "Coral"
+
+; the avatar displayed for each message posted via the webhook 
+avatar = "https://avatars1.githubusercontent.com/u/9255912?s=200&v=4"
+
+[Behaviour]
+; put one or more mattermost usernames prefixed 
+; with @ to send notifications ot each of them
+; when the webhook is triggered.
+mention = "@all"
