@@ -5,7 +5,7 @@ Natively, Coral's dashboard let you setup a webhook to any existing Slack instan
 
 ## Coral and Mattermost 
 
-<img src="https://about.mattermost.com/wp-content/uploads/2017/08/Mattermost-Logo-Blue.svg" alt="Mattermost" style="zoom:67%;" />
+![Mattermost](https://about.mattermost.com/wp-content/uploads/2017/08/Mattermost-Logo-Blue.svg =250x)
 
 Mattermost is an open source Slack self hosted alternative :
 
