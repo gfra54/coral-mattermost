@@ -1,91 +1,107 @@
 # coral-mattermost
-A script to help [Coral](https://coralproject.net/) send messages to a Mattermost instance
-Here is a little description of what Coral is about : 
-> Online comments are broken. Our open-source commenting platform, Coral, rethinks how moderation, comment display, and conversation function, creating the opportunity for safer, smarter discussions around your work. Read more about Coral [here](https://coralproject.net/talk).
+A script to help [Coral](https://coralproject.net/) send messages to a Mattermost instance via the Slack integration.
 
-Natively, Coral's dashboard let you setup a webhook to any existing Slack instance. This can be usefull to have all reported messages posted to a dedicated channel for the moderating team to review them.
+Natively, Coral's dashboard let you setup a webhook to any existing Slack instance. This can be useful, for instance, to have all reported messages posted to a dedicated channel for the moderating team to review them. But it only work for Slack. This tool let you use Mattermost for this purpose.
+
+Mattermost is an open source Slack self hosted alternative :
+
+> All team communication in one place, searchable and accessible anywhere. Mattermost is an open source, private cloud, Slack-alternative from https://mattermost.com. It's written in Golang and React and runs as a single Linux binary with MySQL or PostgreSQL. 
+
+Here is a little description of what Coral is about : 
+
+> Online comments are broken. Our open-source commenting platform, Coral, rethinks how moderation, comment display, and conversation function, creating the opportunity for safer, smarter discussions around your work. Read more about Coral [here](https://coralproject.net/talk).
 
 ## Getting Started
 
-This script is build as a proxy betwenn Coral's Slack integration and your Mattermost instance. It will receive all queries send from Coral, parse the content - encoded in [Slack Markdown](https://www.markdownguide.org/tools/slack/) - to standard markdown. It will then trigger a Mattermost webhook to post the content in the dedicated channel.
+This script is build as a proxy between Coral's Slack integration and your Mattermost instance. It will receive all queries send from Coral, parse the content - encoded in [Slack Markdown](https://www.markdownguide.org/tools/slack/) - to standard markdown. It will then trigger a Mattermost webhook to post the content in the dedicated channel.
 
 ### Prerequisites
 
 What you need before starting : 
 
-```
-Give examples
-```
+- A working [Mattermost Instance](https://docs.mattermost.com/guides/administrator.html#installing-mattermost) 
+- A working Coral instance
+- A public web server running at least PHP 5
+
+
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+First, you need to create a webhook in your Mattermost instance: 
 
-Say what the step will be
+1. Click on the burger button placed in the sidebar, just at the right of your name.
 
-```
-Give the example
-```
+2. Click on "Integrations" and then on "incoming webhooks"
 
-And repeat
+3.  Click on the "Add incoming webhook" button at the top of the page.
 
-```
-until finished
-```
+4. Type in a title (ie: "Coral integration") and a description ("Incoming webhook from coral-mattermost")
 
-End with an example of getting some data out of the system or using it for a little demo
+5. Select the channel where the message will be posted - it should already exist - and check the "lock channel" box so that the webhook will only be able to send messages in this channel. It feels safer - to me at least - to set the webhook this way, so it can't be used to hack into your Mattermost instance. You don't need to set a username and a profile picture.
 
-## Running the tests
+6. Click update, and then copy the webhook url, who should look like this : 
 
-Explain how to run the automated tests for this system
+   ```url
+   https://[mattermost url]/hooks/[key]
+   ```
 
-### Break down into end to end tests
+   
 
-Explain what these tests test and why
+You then need to clone `coral-mattermost`'s repo to your web server and set it up.
 
-```
-Give an example
-```
+Let's assume you have a public webserver whose url is `https://mywebserver.cool`
 
-### And coding style tests
+Go to your webroot and type in
 
-Explain what these tests test and why
-
-```
-Give an example
+```shell
+git clone https://github.com/gfra54/coral-mattermost.git
 ```
 
-## Deployment
+Then, you need to rename the `config.ini.sample` file to `config.ini` and edit it to fit your needs:
 
-Add additional notes about how to deploy this on a live system
+````
+[Mattermost]
+; the custom webhook url you defined in Mattermost
+webhook = "https://[mattermost url]/hooks/[key]"
 
-## Built With
+; The username displayed for each message poster via the webhook
+username = "Coral"
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+; the avatar displayed for each message posted via the webhook 
+avatar = "https://avatars1.githubusercontent.com/u/9255912?s=200&v=4"
 
-## Contributing
+[Behaviour]
+; put one or more mattermost usernames prefixed 
+; with @ to send notifications ot each of them
+; when the webhook is triggered.
+mention = "@all"
+````
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+You need to put every value between quotes for the config file to work.
 
-## Versioning
+Now, your `coral-mattermost` instance is available at https://mywebserver.cool/coral-mattermost. This will be your "custom webhook".
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+You now need to declare this url in Coral's dashboard.
 
-## Authors
+1. Go to your dashboard, then click on the "Configure" menu at the top.
+2. Click on "Slack" in the side menu, then click "Add a channel"
+3. Set a name (ie: "Mattermost") and paste the custom webhook url in the "Webhook URL" field.
+4. Select what you want to be sent to the webhook : Reported comments, pending comments or featured comments.
+5. Click "Save". That's it. When a comment will be reported, a message will be sent 
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+If you want to send each type of comments to 3 differents channels, it is possible, but for now the only solution is to clone `coral-mattermost` 3 times and to set 3 different webhooks. A future version of `coral-mattermost` will include the possibility to set the channel via the webhook url. 
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+## Author
+
+* **Gilles FRANCOIS** - *Initial work* - [gfra54](https://github.com/gfra54)
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE](LICENSE) file for details
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* This code is pretty basic and may need to be improved. All pull requests are welcome
+* Coral is a great community tool, you should try it
+* Mattermost is a great productivity tool, you sould try it too !
 
